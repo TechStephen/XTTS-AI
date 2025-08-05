@@ -1,0 +1,9 @@
+torch==2.2.2+cu118         # CUDA 11.8 compatible PyTorch
+torchaudio==2.2.2+cu118
+transformers==4.41.2       # Compatible with mbart tokenizer
+TTS==0.22.0                # XTTS v2 support
+sentencepiece              # Needed for mbart tokenizer
+pydub                      # Audio chunk handling
+ffmpeg-python              # (optional) FFmpeg wrapper if you want to invoke it programmatically
+
+# pip install -r requirements.txt --extra-index-url https://download.pytorch.org/whl/cu118
