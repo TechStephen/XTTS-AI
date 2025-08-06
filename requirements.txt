@@ -1,3 +1,5 @@
+# For Windows Cuda
+
 torch==2.2.2+cu118         # CUDA 11.8 compatible PyTorch
 torchaudio==2.2.2+cu118
 transformers==4.41.2       # Compatible with mbart tokenizer
@@ -7,3 +9,8 @@ pydub                      # Audio chunk handling
 ffmpeg-python              # (optional) FFmpeg wrapper if you want to invoke it programmatically
 
 # pip install -r requirements.txt --extra-index-url https://download.pytorch.org/whl/cu118
+
+# For MacOS (CPU)
+# torch
+# TTS
+# AudioSegment
