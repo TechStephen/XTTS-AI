@@ -101,7 +101,7 @@ def generate_long_audio(text, speaker_wav_path, output_dir="audio_chunks"):
 # -------------------------------
 # Combine chunks
 # -------------------------------
-def combine_audio_files(audio_files, final_output="futuristic_story.wav"):
+def combine_audio_files(audio_files, final_output="full_story.wav"):
     print("🎧 Combining audio files...")
     combined = AudioSegment.empty()
     for audio_file in audio_files:
