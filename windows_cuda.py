@@ -4,7 +4,10 @@ import torch
 import gc
 import re
 from TTS.api import TTS
+
+os.environ["PATH"] += os.pathsep + r"C:\ffmpeg\bin"
 from pydub import AudioSegment
+
 from transformers import AutoTokenizer
 
 # -------------------------------
@@ -57,21 +60,32 @@ tts.to(device)
 print("XTTS model loaded successfully!")
 
 # -------------------------------
-# Generate long audio
+# Generate long audio (updated)
 # -------------------------------
 def generate_long_audio(text, speaker_wav_path, output_dir="audio_chunks"):
     os.makedirs(output_dir, exist_ok=True)
     chunks = smart_chunk_text_token_limit(text)
     audio_files = []
 
-    for i, chunk in enumerate(chunks):
-        print(f"Processing chunk {i+1}/{len(chunks)}")
+    # Clean up chunk punctuation and spacing
+    cleaned_chunks = []
+    for chunk in chunks:
+        chunk = chunk.strip()
+        if not chunk.endswith(('.', '?', '!')):
+            chunk += '.'
+        cleaned_chunks.append(chunk)
+
+    print("🎙️ Pre-generating speaker embedding...")
+    speaker_embedding = tts.get_speaker_embedding(speaker_wav_path)
+
+    for i, chunk in enumerate(cleaned_chunks):
+        print(f"🎤 Processing chunk {i+1}/{len(cleaned_chunks)}")
         chunk_file = f"{output_dir}/chunk_{i:04d}.wav"
         try:
             tts.tts_to_file(
                 text=chunk,
                 file_path=chunk_file,
-                speaker_wav=speaker_wav_path,
+                speaker_embedding=speaker_embedding,
                 language="en"
             )
             audio_files.append(chunk_file)
@@ -93,7 +107,7 @@ def combine_audio_files(audio_files, final_output="futuristic_story.wav"):
     for audio_file in audio_files:
         try:
             audio = AudioSegment.from_wav(audio_file)
-            combined += audio + AudioSegment.silent(duration=500)
+            combined += audio + AudioSegment.silent(duration=300)
         except Exception as e:
             print(f"Error loading {audio_file}: {e}")
             continue
