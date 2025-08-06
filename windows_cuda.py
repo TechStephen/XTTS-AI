@@ -97,7 +97,7 @@ def combine_audio_files(audio_files, final_output="futuristic_story.wav"):
     for audio_file in audio_files:
         try:
             audio = AudioSegment.from_wav(audio_file)
-            combined += audio + AudioSegment.silent(duration=500)
+            combined += audio + AudioSegment.silent(duration=400)
         except Exception as e:
             print(f"Error loading {audio_file}: {e}")
             continue
