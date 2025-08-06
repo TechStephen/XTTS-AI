@@ -141,6 +141,6 @@ if __name__ == "__main__":
     )
 
     if story_chunks:
-        combine_audio_files(story_chunks, "futuristic_story.wav")
+        combine_audio_files(story_chunks, "full_story.wav")
     else:
         print("❌ Audio generation failed.")
