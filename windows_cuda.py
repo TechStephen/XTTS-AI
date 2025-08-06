@@ -65,7 +65,16 @@ print("XTTS model loaded successfully!")
 # -------------------------------
 def generate_long_audio(text, speaker_wav_path, output_dir="audio_chunks"):
     os.makedirs(output_dir, exist_ok=True)
-    chunks = smart_chunk_text_token_limit(text)
+    chunks_raw = smart_chunk_text_token_limit(text)
+
+    # Ensure all chunks end cleanly
+    chunks = []
+    for chunk in chunks_raw:
+        chunk = chunk.strip()
+        if not chunk.endswith(('.', '?', '!')):
+            chunk += '.'
+        chunks.append(chunk)
+
     audio_files = []
 
     for i, chunk in enumerate(chunks):
